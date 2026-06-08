@@ -1,0 +1,275 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "studentId",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "docType",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "uploadedBy",
+						"type": "address"
+					}
+				],
+				"name": "DocumentStored",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "studentId",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "verificationId",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"name": "VerificationIssued",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "studentId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "docType",
+						"type": "string"
+					}
+				],
+				"name": "checkDocumentExists",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "studentId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "docType",
+						"type": "string"
+					}
+				],
+				"name": "getHash",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "uploadedBy",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "verificationId",
+						"type": "string"
+					}
+				],
+				"name": "lookupVerification",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "studentId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "verificationId",
+						"type": "string"
+					}
+				],
+				"name": "recordVerification",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "studentId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "docType",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "fileHash",
+						"type": "string"
+					}
+				],
+				"name": "storeHash",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "studentId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "docType",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "fileHash",
+						"type": "string"
+					}
+				],
+				"name": "verifyHash",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"checkDocumentExists(string,string)": {
+					"notice": "Check whether a document has been stored for a given student and type. "
+				},
+				"getHash(string,string)": {
+					"notice": "Return the stored hash, block timestamp, and uploader address. "
+				},
+				"lookupVerification(string)": {
+					"notice": "Return the studentId associated with a verificationId (empty string if not found). "
+				},
+				"recordVerification(string,string)": {
+					"notice": "Record a final verification certificate on-chain. Each verificationId can only be registered once."
+				},
+				"storeHash(string,string,string)": {
+					"notice": "Store a SHA-256 hash for a student document. Overwrites any previous hash for the same (studentId, docType) pair."
+				},
+				"verifyHash(string,string,string)": {
+					"notice": "Compare a supplied hash against the stored hash. Returns false if no document has been stored yet."
+				}
+			},
+			"notice": "Academic Integrity Verification System Stores SHA-256 document hashes on-chain and issues verification records.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"AcademicVerification.sol": "AcademicVerification"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"AcademicVerification.sol": {
+			"keccak256": "0x596516f3120e9b8b1892c5f7bec1e0ce0452329d0d31dcc8f21247c93d3aedd7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://932f430cbee459a77da3147f3df31fcd845cc081967fe349a7a15ea7d1e495b2",
+				"dweb:/ipfs/Qmby7qkguMFPfJoT5nkKk732mZyL9fRcDeYkxa1SBmBwzN"
+			]
+		}
+	},
+	"version": 1
+}

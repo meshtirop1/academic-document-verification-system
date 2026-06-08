@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev .db"
+}
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  password     String
+  name         String
+  role         String     @default("STUDENT")
+  studentId    String?    @unique @map("student_id")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  uploadedDocs Document[] @relation("UploadedBy")
+
+  @@map("users")
+}
+
+model Document {
+  id               String   @id @default(uuid())
+  studentId        String   @map("student_id")
+  docType          String   @map("doc_type")
+  fileHash         String   @map("file_hash")
+  originalFilename String   @map("original_filename")
+  txHash           String?  @map("tx_hash")
+  uploadedById     String   @map("uploaded_by_id")
+  uploadedAt       DateTime @default(now()) @map("uploaded_at")
+  uploadedBy       User     @relation("UploadedBy", fields: [uploadedById], references: [id])
+
+  @@unique([studentId, docType])
+  @@map("documents")
+}
+
+model VerificationCertificate {
+  id                 String   @id @default(uuid())
+  verificationId     String   @unique @map("verification_id")
+  studentId          String   @unique @map("student_id")
+  studentName        String   @map("student_name")
+  attendanceVerified Boolean  @default(false) @map("attendance_verified")
+  transcriptVerified Boolean  @default(false) @map("transcript_verified")
+  resultsVerified    Boolean  @default(false) @map("results_verified")
+  fullyVerified      Boolean  @default(false) @map("fully_verified")
+  blockchainTxHash   String?  @map("blockchain_tx_hash")
+  issuedAt           DateTime @default(now()) @map("issued_at")
+
+  @@map("verification_certificates")
+}
